@@ -1,0 +1,7 @@
+build
+dist
+
+# Eclipse
+.classpath
+.project
+.settings

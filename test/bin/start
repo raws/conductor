@@ -1,0 +1,9 @@
+#!/bin/bash
+
+BIN="$(cd "$(dirname "$0")" && pwd)"
+SERVER="$BIN/.."
+PLUGIN="$SERVER/.."
+LIB="$PLUGIN/lib"
+
+cd "$SERVER"
+java -Xms1024M -Xmx1024M -jar "$LIB/craftbukkit.jar" org.bukkit.craftbukkit.Main

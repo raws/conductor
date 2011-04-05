@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Conductor" default="dist" basedir=".">
+	<property name="build" location="build"/>
+	<property name="dist" location="dist"/>
+	<property name="lib" location="lib"/>
+	<property name="src" location="src"/>
+	<property name="test" location="test"/>
+	
+	<target name="init">
+		<mkdir dir="${build}"/>
+	</target>
+	
+	<target name="compile" depends="init" description="Compile Conductor and place class files in the build directory">
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+			<classpath>
+				<pathelement location="${lib}/craftbukkit.jar"/>
+				<pathelement location="${lib}/MinecartManiaCore.jar"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="dist" depends="compile" description="Package Conductor class files into a distributable .jar file">
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/MinecartManiaPluginConductor.jar">
+			<fileset dir="${build}"/>
+			<fileset file="plugin.yml"/>
+		</jar>
+	</target>
+	
+	<target name="test" depends="dist" description="Run the Conductor test server (with questionable interactivity)">
+		<java jar="${lib}/craftbukkit.jar" fork="true" dir="${test}"/>
+	</target>
+	
+	<target name="clean" description="Remove build and dist objects and directories">
+		<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+	</target>
+</project>
