@@ -1,6 +1,5 @@
 package com.raws.conductor;
 
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,14 +11,16 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.afforess.minecartmaniacore.MinecartManiaPlayer;
+import com.afforess.minecartmaniacore.MinecartManiaWorld;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class ConductorPlugin extends JavaPlugin {
 	
 	protected static final String MINECART_MANIA_PLUGIN_NAME = "MinecartManiaCore";
+	protected static final String DESTINATION_KEY = "com.raws.conductor.destination";
 	
 	protected ConductorVehicleListener vehicleListener;
-	protected HashMap<Player,String> destinations;
 	
 	@Override
 	public void onEnable() {
@@ -30,7 +31,6 @@ public class ConductorPlugin extends JavaPlugin {
 		
 		if (isEnabled()) {
 			vehicleListener = new ConductorVehicleListener(this);
-			destinations = new HashMap<Player,String>();
 			
 			PluginManager manager = getServer().getPluginManager();
 			manager.registerEvent(Event.Type.CUSTOM_EVENT, vehicleListener, Event.Priority.High, this);
@@ -58,7 +58,7 @@ public class ConductorPlugin extends JavaPlugin {
 			return false;
 		}
 		
-		Player player = (Player)sender;
+		MinecartManiaPlayer player = MinecartManiaWorld.getMinecartManiaPlayer((Player)sender);
 		
 		if (args.length > 0) {
 			// Player would like to set her destination
@@ -87,8 +87,8 @@ public class ConductorPlugin extends JavaPlugin {
 	 * @param player      player whose destination to set
 	 * @param destination string loosely matching the player's target destination
 	 */
-	public void setDestinationFor(Player player, String destination) {
-		destinations.put(player, destination);
+	public void setDestinationFor(MinecartManiaPlayer player, String destination) {
+		player.setDataValue(DESTINATION_KEY, destination);
 	}
 	
 	/**
@@ -100,8 +100,8 @@ public class ConductorPlugin extends JavaPlugin {
 	 * @param player player whose destination to get
 	 * @return player's destination or <code>null</code>
 	 */
-	public String getDestinationFor(Player player) {
-		return destinations.get(player);
+	public String getDestinationFor(MinecartManiaPlayer player) {
+		return (String)player.getDataValue(DESTINATION_KEY);
 	}
 	
 	/**
@@ -112,8 +112,8 @@ public class ConductorPlugin extends JavaPlugin {
 	 * 
 	 * @param player player whose destination to remove
 	 */
-	public void clearDestinationFor(Player player) {
-		destinations.remove(player);
+	public void clearDestinationFor(MinecartManiaPlayer player) {
+		player.setDataValue(DESTINATION_KEY, null);
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public class ConductorPlugin extends JavaPlugin {
 	 * @param player  player to whom to send the message
 	 * @param message message to send
 	 */
-	public void sendMessageTo(Player player, String message) {
+	public void sendMessageTo(MinecartManiaPlayer player, String message) {
 		player.sendMessage(ChatColor.GRAY + message);
 	}
 
