@@ -4,7 +4,7 @@ Conductor is inspired by [DjDCH](http://forums.bukkit.org/members/djdch.1819/)'s
 
 ### Installation and usage
 
-Conductor requires [Minecart Mania](http://wiki.afforess.com/Minecart_Mania-Plugin) Core. Simply drop `MinecartManiaConductor.jar` into your [Bukkit](http://bukkit.org/) server's `plugins` directory.
+Conductor requires Minecart Mania Core. Simply drop `MinecartManiaConductor.jar` into your [Bukkit](http://bukkit.org/) server's `plugins` directory.
 
 Conductor exposes one simple command. To set your minecart destination, use:
 
