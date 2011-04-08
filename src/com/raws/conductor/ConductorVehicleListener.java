@@ -6,9 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
 
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
+import com.afforess.minecartmaniacore.MinecartManiaPlayer;
+import com.afforess.minecartmaniacore.MinecartManiaWorld;
 import com.afforess.minecartmaniacore.event.MinecartCaughtEvent;
 import com.afforess.minecartmaniacore.event.MinecartEvent;
 import com.afforess.minecartmaniacore.event.MinecartManiaListener;
@@ -34,7 +35,8 @@ public class ConductorVehicleListener extends MinecartManiaListener {
 			return;
 		}
 		
-		Player player = minecart.getPlayerPassenger();
+		// Player player = minecart.getPlayerPassenger();
+		MinecartManiaPlayer player = MinecartManiaWorld.getMinecartManiaPlayer(minecart.getPlayerPassenger());
 		String destination = conductor.getDestinationFor(player);
 		
 		if (destination == null) {
@@ -64,7 +66,7 @@ public class ConductorVehicleListener extends MinecartManiaListener {
 			}
 		}
 		
-		event.setActionTaken(true);	
+		event.setActionTaken(true);
 	}
 	
 	protected void log(Level level, String message) {
