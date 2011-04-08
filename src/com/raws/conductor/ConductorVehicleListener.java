@@ -5,33 +5,29 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
-import com.afforess.minecartmaniacore.event.MinecartActionEvent;
+import com.afforess.minecartmaniacore.event.MinecartCaughtEvent;
+import com.afforess.minecartmaniacore.event.MinecartEvent;
 import com.afforess.minecartmaniacore.event.MinecartManiaListener;
 import com.afforess.minecartmaniacore.utils.SignUtils;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
 public class ConductorVehicleListener extends MinecartManiaListener {
-	protected static final Material STATION_BLOCK = Material.LOG;
-	
 	protected final ConductorPlugin conductor;
 	
 	public ConductorVehicleListener(ConductorPlugin plugin) {
 		this.conductor = plugin;
 	}
-
-	@Override
-	public void onMinecartActionEvent(MinecartActionEvent event) {
-		if (!event.isActionTaken() && isMinecartAtStation(event)) {
-			onMinecartAtStation(event);
-		}
-	}
 	
-	protected void onMinecartAtStation(MinecartActionEvent event) {
+	@Override
+	public void onMinecartCaughtEvent(MinecartCaughtEvent event) {
+		onMinecartAtStation(event);
+	}
+
+	protected void onMinecartAtStation(MinecartEvent event) {
 		MinecartManiaMinecart minecart = event.getMinecart();
 		
 		if (!(minecart.hasPlayerPassenger() && minecart.isOnRails())) {
@@ -69,14 +65,6 @@ public class ConductorVehicleListener extends MinecartManiaListener {
 		}
 		
 		event.setActionTaken(true);	
-	}
-	
-	protected boolean isMinecartAtStation(MinecartManiaMinecart minecart) {
-		return minecart.getBlockIdBeneath() == STATION_BLOCK.getId();
-	}
-	
-	protected boolean isMinecartAtStation(MinecartActionEvent event) {
-		return isMinecartAtStation(event.getMinecart());
 	}
 	
 	protected void log(Level level, String message) {
