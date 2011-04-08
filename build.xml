@@ -19,9 +19,9 @@
 		</javac>
 	</target>
 	
-	<target name="dist" depends="compile" description="Package Conductor class files into a distributable .jar file">
+	<target name="dist" depends="compile" description="Package Conductor into a distributable .jar file">
 		<mkdir dir="${dist}"/>
-		<jar jarfile="${dist}/MinecartManiaPluginConductor.jar">
+		<jar jarfile="${dist}/MinecartManiaConductor.jar">
 			<fileset dir="${build}"/>
 			<fileset file="plugin.yml"/>
 		</jar>
