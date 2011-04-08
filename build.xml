@@ -23,6 +23,7 @@
 		<mkdir dir="${dist}"/>
 		<jar jarfile="${dist}/MinecartManiaConductor.jar">
 			<fileset dir="${build}"/>
+			<fileset file="LICENSE"/>
 			<fileset file="plugin.yml"/>
 		</jar>
 	</target>
