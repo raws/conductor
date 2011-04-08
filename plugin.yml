@@ -1,3 +1,12 @@
 name: Conductor
 main: com.raws.conductor.ConductorPlugin
 version: 0.1
+depend:
+  - MinecartManiaCore
+commands:
+  to:
+    description: Debark at the station of your choice
+    usage: |
+      Usage: /to <destination>
+      Where <destination> is a Minecart station name to search for.
+      To clear your destination, use /to without any parameters.
