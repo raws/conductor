@@ -1,5 +1,7 @@
 Conductor is a [Minecart Mania](http://wiki.afforess.com/Minecart_Mania-Plugin) plugin to help you disembark at the right stop.
 
+Conductor is inspired by [DjDCH](http://forums.bukkit.org/members/djdch.1819/)'s [NextStation](http://forums.bukkit.org/threads/mech-nextstation-0-1-1-your-favourite-stations-announcement-system-556.6572/). I wanted the ability to debark at _any_ upcoming station, and to use natural-reading signs to do so.
+
 ### Installation and usage
 
 Conductor requires [Minecart Mania](http://wiki.afforess.com/Minecart_Mania-Plugin) Core. Simply drop `MinecartManiaConductor.jar` into your [Bukkit](http://bukkit.org/) server's `plugins` directory.
