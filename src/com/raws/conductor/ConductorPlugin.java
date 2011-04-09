@@ -20,7 +20,7 @@ public class ConductorPlugin extends JavaPlugin {
 	protected static final String MINECART_MANIA_PLUGIN_NAME = "MinecartManiaCore";
 	protected static final String DESTINATION_KEY = "com.raws.conductor.destination";
 	
-	protected ConductorVehicleListener vehicleListener;
+	protected VehicleListener vehicleListener;
 	
 	@Override
 	public void onEnable() {
@@ -30,7 +30,7 @@ public class ConductorPlugin extends JavaPlugin {
 		}
 		
 		if (isEnabled()) {
-			vehicleListener = new ConductorVehicleListener(this);
+			vehicleListener = new VehicleListener(this);
 			
 			PluginManager manager = getServer().getPluginManager();
 			manager.registerEvent(Event.Type.CUSTOM_EVENT, vehicleListener, Event.Priority.High, this);

@@ -17,10 +17,10 @@ import com.afforess.minecartmaniacore.event.MinecartManiaListener;
 import com.afforess.minecartmaniacore.utils.SignUtils;
 import com.afforess.minecartmaniacore.utils.StringUtils;
 
-public class ConductorVehicleListener extends MinecartManiaListener {
+public class VehicleListener extends MinecartManiaListener {
 	protected final ConductorPlugin conductor;
 	
-	public ConductorVehicleListener(ConductorPlugin plugin) {
+	public VehicleListener(ConductorPlugin plugin) {
 		this.conductor = plugin;
 	}
 	
