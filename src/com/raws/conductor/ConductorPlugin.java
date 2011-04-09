@@ -64,7 +64,9 @@ public class ConductorPlugin extends JavaPlugin {
 			// Player would like to set her destination
 			String destination = StringUtils.join(args, 0, " ");
 			// TODO Search through known destinations for possible matches
-			setDestinationFor(player, destination);
+			// TODO Parse some sort of --persist option from the command
+			boolean persist = false;
+			setDestinationFor(player, destination, persist);
 			sendMessageTo(player, "You will disembark at " + destination + "!");
 		} else {
 			// Player would like to clear her destination
@@ -86,29 +88,30 @@ public class ConductorPlugin extends JavaPlugin {
 	 * 
 	 * @param player      player whose destination to set
 	 * @param destination string loosely matching the player's target destination
+	 * @param persist     whether or not the player's destination should be cleared upon arrival
 	 */
-	public void setDestinationFor(MinecartManiaPlayer player, String destination) {
-		player.setDataValue(DESTINATION_KEY, destination);
+	public void setDestinationFor(MinecartManiaPlayer player, String destination, boolean persist) {
+		player.setDataValue(DESTINATION_KEY, new Destination(player, destination, persist));
 	}
 	
 	/**
 	 * Get a player's Conductor destination, if any.
 	 * 
-	 * See {@link #setDestinationFor(Player, String)} for a description of
-	 * player destinations.
+	 * See {@link #setDestinationFor(Player, String, boolean)} for a
+	 * description of player destinations.
 	 * 
 	 * @param player player whose destination to get
 	 * @return player's destination or <code>null</code>
 	 */
-	public String getDestinationFor(MinecartManiaPlayer player) {
-		return (String)player.getDataValue(DESTINATION_KEY);
+	public Destination getDestinationFor(MinecartManiaPlayer player) {
+		return (Destination)player.getDataValue(DESTINATION_KEY);
 	}
 	
 	/**
 	 * Remove a player's Conductor destination, if any.
 	 * 
-	 * See {@link #setDestinationFor(Player, String)} for a description of
-	 * player destinations.
+	 * See {@link #setDestinationFor(Player, String, boolean)} for a
+	 * description of player destinations.
 	 * 
 	 * @param player player whose destination to remove
 	 */
