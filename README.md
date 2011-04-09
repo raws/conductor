@@ -12,9 +12,14 @@ Conductor exposes one simple command. To set your minecart destination, use:
 
 Where `<destination>` is the name of the station you'd like to debark at. Station names may be partial, and are case insensitive. For example, `/to gaf` will match the station "Fort Gafley".
 
-To clear your destination, use `/to` without any parameters.
+By default, your destination will be cleared automatically upon arrival. If you would like for it to persist, use the `-a` or `--always` options:
 
-To create a station, place rail on top of a log block. Adjacent to the log (within a two-block radius in all directions), place a sign which looks like:
+    /to -a honking heights
+    /to --always chez raws
+
+You may clear your destination at any time by using `/to` without any parameters.
+
+To create a station, place rail on top of a "catcher" block, such as Minecart Mania's default obsidian. Adjacent to the block (within a two-block radius in all directions), place a sign which looks like:
 
      -----------------
     |                 |

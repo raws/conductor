@@ -37,7 +37,7 @@ public class VehicleListener extends MinecartManiaListener {
 		}
 		
 		MinecartManiaPlayer player = null;
-		String destination = null;
+		Destination destination = null;
 		
 		if (minecart.getPlayerPassenger() != null) {
 			player = MinecartManiaWorld.getMinecartManiaPlayer(minecart.getPlayerPassenger());
@@ -62,12 +62,12 @@ public class VehicleListener extends MinecartManiaListener {
 		
 		// Replace whitespace in destination search query with a regex
 		// pattern matching anything, for a more lenient search.
-		String destinationPattern = destination.replaceAll("\\s+", ".*");
+		String stationPattern = destination.getStation().replaceAll("\\s+", ".*");
 		
 		ArrayList<Sign> signs = SignUtils.getAdjacentSignList(minecart, 2);
 		for (Sign sign : signs) {
 			String lines = StringUtils.join(sign.getLines(), 0, "\n");
-			String regex = "line(.*" + destinationPattern + ".*)";
+			String regex = "line(.*" + stationPattern + ".*)";
 			Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 			Matcher matcher = pattern.matcher(lines);
 			
@@ -78,7 +78,10 @@ public class VehicleListener extends MinecartManiaListener {
 				String stationName = matcher.group(1).trim().replaceAll("[\r\n]+", " ");
 				String message = (minecart.getOwner() == minecart.getPlayerPassenger() ? "You've" : "Your minecart has") + " arrived at " + stationName + "!";
 				conductor.sendMessageTo(player, message);
-				conductor.clearDestinationFor(player);
+				
+				if (!destination.shouldPersist()) {
+					conductor.clearDestinationFor(player);
+				}
 				
 				break;
 			}
