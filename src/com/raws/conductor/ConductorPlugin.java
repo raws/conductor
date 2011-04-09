@@ -62,12 +62,14 @@ public class ConductorPlugin extends JavaPlugin {
 		
 		if (args.length > 0) {
 			// Player would like to set her destination
-			String destination = StringUtils.join(args, 0, " ");
-			// TODO Search through known destinations for possible matches
-			// TODO Parse some sort of --persist option from the command
-			boolean persist = false;
-			setDestinationFor(player, destination, persist);
-			sendMessageTo(player, "You will disembark at " + destination + "!");
+			String arguments = StringUtils.join(args, 0, " ");
+			
+			boolean persist = isOptionSet(arguments, "-a", "--always");
+			String station = scrubOptions(arguments);
+			setDestinationFor(player, station, persist);
+			
+			String message = "You will " + (persist ? "always " : "") + "disembark at \"" + station + "\"!";
+			sendMessageTo(player, message);
 		} else {
 			// Player would like to clear her destination
 			clearDestinationFor(player);
@@ -127,6 +129,42 @@ public class ConductorPlugin extends JavaPlugin {
 	 */
 	public void sendMessageTo(MinecartManiaPlayer player, String message) {
 		player.sendMessage(ChatColor.GRAY + message);
+	}
+
+	/**
+	 * Test for the presence of one or more command line options in
+	 * a String.
+	 * 
+	 * Options should be given with their hyphens, e.g. <code>-s</code>
+	 * or <code>--sticky</code>.
+	 * 
+	 * @param input   the String to test
+	 * @param options the command line options to search for
+	 * @return <code>true</code> if any of the options were found, or <code>false</code> if not
+	 */
+	protected boolean isOptionSet(String input, String... options) {
+		input = input.trim().toLowerCase();
+		
+		for (String option : options) {
+			if (input.indexOf(option.toLowerCase()) > -1) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Scrub any command line options from a String.
+	 * 
+	 * This method matches any combination of hyphens and word characters,
+	 * such as <code>-s</code> or <code>--sticky</code>.
+	 * 
+	 * @param input the String to scrub
+	 * @return a copy of the input String with any command line options removed
+	 */
+	protected String scrubOptions(String input) {
+		return input.replaceAll("\\s*\\-+[\\w\\-]+\\s*", " ").trim();
 	}
 
 	protected Logger getLogger() {
