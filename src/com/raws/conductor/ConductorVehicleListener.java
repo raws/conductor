@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
 
 import com.afforess.minecartmaniacore.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.MinecartManiaPlayer;
@@ -31,15 +32,31 @@ public class ConductorVehicleListener extends MinecartManiaListener {
 	protected void onMinecartAtStation(MinecartEvent event) {
 		MinecartManiaMinecart minecart = event.getMinecart();
 		
-		if (!(minecart.hasPlayerPassenger() && minecart.isOnRails())) {
+		if (!minecart.isOnRails()) {
 			return;
 		}
 		
-		// Player player = minecart.getPlayerPassenger();
-		MinecartManiaPlayer player = MinecartManiaWorld.getMinecartManiaPlayer(minecart.getPlayerPassenger());
-		String destination = conductor.getDestinationFor(player);
+		MinecartManiaPlayer player = null;
+		String destination = null;
+		
+		if (minecart.getPlayerPassenger() != null) {
+			player = MinecartManiaWorld.getMinecartManiaPlayer(minecart.getPlayerPassenger());
+			destination = conductor.getDestinationFor(player);
+		}
 		
 		if (destination == null) {
+			// Since the minecart's passenger has no destination, does the owner?
+			
+			Object owner = minecart.getOwner();
+			if (!(owner instanceof Player)) {
+				return;
+			}
+			
+			player = MinecartManiaWorld.getMinecartManiaPlayer((Player)owner);
+			destination = conductor.getDestinationFor(player);
+		}
+		
+		if (destination == null || player == null) {
 			return;
 		}
 		
@@ -59,7 +76,8 @@ public class ConductorVehicleListener extends MinecartManiaListener {
 				minecart.kill(true);
 				
 				String stationName = matcher.group(1).trim().replaceAll("[\r\n]+", " ");
-				conductor.sendMessageTo(player, "You've arrived at " + stationName + "!");
+				String message = (minecart.getOwner() == minecart.getPlayerPassenger() ? "You've" : "Your minecart has") + " arrived at " + stationName + "!";
+				conductor.sendMessageTo(player, message);
 				conductor.clearDestinationFor(player);
 				
 				break;
